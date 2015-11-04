@@ -4,15 +4,8 @@ Template.map.onRendered(function () {
     Tracker.autorun(function () {
         if( Mapbox.loaded() ) {
 					L.mapbox.accessToken = 'pk.eyJ1IjoibXVyaWxvcG9sZXNlIiwiYSI6ImNpZ2o3aWY4OTAwMWx1bmx6cWp3enZneGUifQ.XuFUq-DqQK6kD8S3shSPGQ';
-					Meteor.map = L.mapbox.map( 'map', 'mapbox.streets' );
-					// document.oncontextmenu = function() {return false;};
-					// Meteor.map.on( 'mousedown', function( e ) {
-					// 	if( e.originalEvent.button == 2 ) {
-					// 		console.log( 'mousedown', e.originalEvent.button );
-					// 		return false;
-					// 	}
-					// 	return true;
-					// })
+					Meteor.map = L.mapbox.map( 'map', 'mapbox.streets' )
+					.setView([48.864715, 2.342834], 12);
         }
     });
 		// Add pins
@@ -52,7 +45,8 @@ Template.form.onRendered(function() {
 	Tracker.autorun(function () {
 			if( Mapbox.loaded() ) {
 				L.mapbox.accessToken = 'pk.eyJ1IjoibXVyaWxvcG9sZXNlIiwiYSI6ImNpZ2o3aWY4OTAwMWx1bmx6cWp3enZneGUifQ.XuFUq-DqQK6kD8S3shSPGQ';
-				Meteor.map = L.mapbox.map( 'map-picker', 'mapbox.streets' );
+				Meteor.map = L.mapbox.map( 'map-picker', 'mapbox.streets' )
+				.setView([48.864715, 2.342834], 12);
 				// Load position pin on map
 				if( $( 'input[name=lng]').val() && $( 'input[name=lat]').val() ) {
 					var geojson = [{
@@ -65,7 +59,7 @@ Template.form.onRendered(function() {
 					Meteor.map.featureLayer.setGeoJSON( geojson );
 				}
 				// Prevent context menu
-				document.oncontextmenu = function() {return false;};
+				document.oncontextmenu = function() {return false;}
 				Meteor.map.on( 'mousedown', function( e ) {
 					if( e.originalEvent.button == 2 ) {
 						var geojson = [{
@@ -80,7 +74,7 @@ Template.form.onRendered(function() {
 						Meteor.map.featureLayer.setGeoJSON( geojson );
 					}
 					return false;
-				})
+				});
 			}
 	});
 

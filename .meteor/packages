@@ -24,3 +24,4 @@ twbs:bootstrap
 less
 summernote:standalone
 fortawesome:fontawesome
+fastclick
