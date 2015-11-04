@@ -29,10 +29,10 @@ Template.map.onRendered(function () {
 						"type": "Feature",
 				    "geometry": {
 				      "type": "Point",
-				      "coordinates": [ pin.lng, pin.lat ]
+				      "coordinates": [ pin.lng || 0, pin.lat || 0 ]
 				    },
 				    "properties": {
-				      "title": '<a href="'+Meteor.absoluteUrl('form')+'/'+pin._id+'">'+pin.title+'</a>',
+				      "title": '<h2><a href="' + Meteor.absoluteUrl('form') + '/' + pin._id + '">' + ( pin.title || 'Untitled' ) + '</a></h2>',
 				      "description": pin.description,
 				      "marker-color": "#fc4353",
 				      "marker-size": "large"
@@ -54,14 +54,16 @@ Template.form.onRendered(function() {
 				L.mapbox.accessToken = 'pk.eyJ1IjoibXVyaWxvcG9sZXNlIiwiYSI6ImNpZ2o3aWY4OTAwMWx1bmx6cWp3enZneGUifQ.XuFUq-DqQK6kD8S3shSPGQ';
 				Meteor.map = L.mapbox.map( 'map-picker', 'mapbox.streets' );
 				// Load position pin on map
-				var geojson = [{
-					"type": "Feature",
-					"geometry": {
-						"type": "Point",
-						"coordinates": [ $( 'input[name=lng]').val(), $( 'input[name=lat]').val() ]
-					}
-				}];
-				Meteor.map.featureLayer.setGeoJSON( geojson );
+				if( $( 'input[name=lng]').val() && $( 'input[name=lat]').val() ) {
+					var geojson = [{
+						"type": "Feature",
+						"geometry": {
+							"type": "Point",
+							"coordinates": [ $( 'input[name=lng]').val(), $( 'input[name=lat]').val() ]
+						}
+					}];
+					Meteor.map.featureLayer.setGeoJSON( geojson );
+				}
 				// Prevent context menu
 				document.oncontextmenu = function() {return false;};
 				Meteor.map.on( 'mousedown', function( e ) {
@@ -100,10 +102,10 @@ Template.form.events({
 		} else {
 			// Create or update
 			var pin = {
-				title: e.target.title.value,
-				description: $( '.summernote' ).code(),
-				lat: e.target.lat.value,
-				lng: e.target.lng.value
+				title: e.target.title.value || 'Untitled',
+				description: $( '.summernote' ).code() || '',
+				lat: e.target.lat.value || 0,
+				lng: e.target.lng.value || 0
 			};
 			if( this._id ) {
 				Pin.update(
