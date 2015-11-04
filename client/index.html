@@ -1,0 +1,67 @@
+<head>
+	<title>Designit Map</title>
+</head>
+
+<body></body>
+
+<template name="nav">
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+					data-target="#navbar-links" aria-expanded="false">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" href="/">Designit Map</a>
+	    </div>
+			<div class="collapse navbar-collapse" id="navbar-links">
+	      <ul class="nav navbar-nav">
+	        <li><a href="/map">Map</a></li>
+	        <li><a href="/form">New</a></li>
+	      </ul>
+		  </div>
+	  </div>
+	</nav>
+</template>
+
+<template name="map">
+	{{>nav}}
+	{{pins}}
+	<div class='custom-popup' id="map"></div>
+</template>
+
+<template name="form">
+	{{>nav}}
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-sm-push-2">
+				<form>
+					<div class="form-group">
+				    <label for="title">Title</label>
+				    <input type="text" class="form-control" name="title" placeholder="Title" value="{{title}}">
+				  </div>
+					<div class="form-group">
+				    <label>Description</label>
+						<div class="summernote">{{{description}}}</div>
+				  </div>
+					<div class="form-group">
+						<div id="map-picker"></div>
+					</div>
+			    <input type="hidden" class="form-control" name="lat" placeholder="Latitude" value="{{lat}}">
+			    <input type="hidden" class="form-control" name="lng" placeholder="Longitude" value="{{lng}}">
+					{{#if loading}}
+						<p>Wait...</p>
+					{{else}}
+						<button type="submit" class="btn btn-primary">Save</button>
+						{{#if _id}}
+							<button class="btn btn-danger">Delete</button>
+						{{/if}}
+					{{/if}}
+				</form>
+			</div>
+		</div>
+	</div>
+
+</template>
